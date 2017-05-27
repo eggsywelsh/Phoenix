@@ -90,14 +90,14 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
         mSkyMoveOffset = Utils.convertDpToPixel(getContext(), 15);
 
         mTownHeight = (int) (TOWN_RATIO * mScreenWidth);
-        mTownInitialTopOffset = (mParent.getTotalDragDistance() - mTownHeight * TOWN_INITIAL_SCALE);
-        mTownFinalTopOffset = (mParent.getTotalDragDistance() - mTownHeight * TOWN_FINAL_SCALE);
+        mTownInitialTopOffset = (mParent.getTopTotalDragDistance() - mTownHeight * TOWN_INITIAL_SCALE);
+        mTownFinalTopOffset = (mParent.getTopTotalDragDistance() - mTownHeight * TOWN_FINAL_SCALE);
         mTownMoveOffset = Utils.convertDpToPixel(getContext(), 10);
 
         mSunLeftOffset = 0.3f * (float) mScreenWidth;
-        mSunTopOffset = (mParent.getTotalDragDistance() * 0.1f);
+        mSunTopOffset = (mParent.getTopTotalDragDistance() * 0.1f);
 
-        mTop = -mParent.getTotalDragDistance();
+        mTop = -mParent.getTopTotalDragDistance();
 
         createBitmaps();
     }
@@ -115,7 +115,7 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
     }
 
     @Override
-    public void setPercent(float percent, boolean invalidate) {
+    public void setTopPercent(float percent, boolean invalidate) {
         setPercent(percent);
         if (invalidate) setRotate(percent);
     }
@@ -133,7 +133,7 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
         final int saveCount = canvas.save();
 
         canvas.translate(0, mTop);
-        canvas.clipRect(0, -mTop, mScreenWidth, mParent.getTotalDragDistance());
+        canvas.clipRect(0, -mTop, mScreenWidth, mParent.getTopTotalDragDistance());
 
         drawSky(canvas);
         drawSun(canvas);
@@ -159,7 +159,7 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
         }
 
         float offsetX = -(mScreenWidth * skyScale - mScreenWidth) / 2.0f;
-        float offsetY = (1.0f - dragPercent) * mParent.getTotalDragDistance() - mSkyTopOffset // Offset canvas moving
+        float offsetY = (1.0f - dragPercent) * mParent.getTopTotalDragDistance() - mSkyTopOffset // Offset canvas moving
                 - mSkyHeight * (skyScale - 1.0f) / 2 // Offset sky scaling
                 + mSkyMoveOffset * dragPercent; // Give it a little move top -> bottom
 
@@ -195,7 +195,7 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
         }
 
         float offsetX = -(mScreenWidth * townScale - mScreenWidth) / 2.0f;
-        float offsetY = (1.0f - dragPercent) * mParent.getTotalDragDistance() // Offset canvas moving
+        float offsetY = (1.0f - dragPercent) * mParent.getTopTotalDragDistance() // Offset canvas moving
                 + townTopOffset
                 - mTownHeight * (townScale - 1.0f) / 2 // Offset town scaling
                 + townMoveOffset; // Give it a little move
@@ -220,7 +220,7 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
 
         float offsetX = mSunLeftOffset;
         float offsetY = mSunTopOffset
-                + (mParent.getTotalDragDistance() / 2) * (1.0f - dragPercent) // Move the sun up
+                + (mParent.getTopTotalDragDistance() / 2) * (1.0f - dragPercent) // Move the sun up
                 - mTop; // Depending on Canvas position
 
         float scalePercentDelta = dragPercent - SCALE_START_PERCENT;
@@ -305,4 +305,8 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
         mAnimation.setDuration(ANIMATION_DURATION);
     }
 
+    @Override
+    public void setBottomPercent(float percent, boolean invalidate) {
+
+    }
 }

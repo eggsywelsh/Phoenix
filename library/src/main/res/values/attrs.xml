@@ -4,5 +4,9 @@
         <attr name="type" format="enum">
             <enum name="sun" value="0" />
         </attr>
+        <attr name="isPullTopToRefresh" format="boolean" />
+        <attr name="isPullBottomToRefresh" format="boolean" />
+        <attr name="totalTopDragDistance" format="dimension" />
+        <attr name="totalBottomDragDistance" format="dimension" />
     </declare-styleable>
 </resources>

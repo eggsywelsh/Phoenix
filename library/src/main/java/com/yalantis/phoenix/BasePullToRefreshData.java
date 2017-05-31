@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import com.yalantis.phoenix.refresh_view.BaseRefreshView;
 
 /**
+ * Pull to refresh data
+ *
  * @author chenyongkang
  * @Date 2017/5/27 15:18
  */
@@ -16,25 +18,25 @@ class BasePullToRefreshData {
 
     BaseRefreshView mRefreshView;
 
-    float initialMotionY;
+    float mInitialMotionY;
 
-    int from;
+    int mFrom;
 
-    float fromDragPercent;
+    float mFromDragPercent;
 
-    boolean notify;
+    boolean mNotify;
 
-    boolean isBeingDragged;
+    boolean mIsBeingDragged;
 
-    int currentOffset;
+    int mCurrentOffset;
 
-    float currentDragPercent;
+    boolean mEnableToRefresh;
 
-    boolean enableToRefresh;
+    boolean mIsRefreshing;
 
-    boolean isRefreshing;
+    PullToRefreshView.OnRefreshListener mOnRefreshListener;
 
-    public BasePullToRefreshData(Context mContext){
+    public BasePullToRefreshData(Context mContext) {
         this.mContainerView = new ImageView(mContext);
     }
 
@@ -55,82 +57,74 @@ class BasePullToRefreshData {
     }
 
     public float getInitialMotionY() {
-        return initialMotionY;
+        return mInitialMotionY;
     }
 
     public void setInitialMotionY(float mInitialMotionY) {
-        this.initialMotionY = mInitialMotionY;
+        this.mInitialMotionY = mInitialMotionY;
     }
 
     public int getFrom() {
-        return from;
+        return mFrom;
     }
 
     public void setFrom(int mFrom) {
-        this.from = mFrom;
+        this.mFrom = mFrom;
     }
 
     public float getFromDragPercent() {
-        return fromDragPercent;
+        return mFromDragPercent;
     }
 
-    public void setFromDragPercent(float fromDragPercent) {
-        this.fromDragPercent = fromDragPercent;
+    public void setFromDragPercent(float mFromDragPercent) {
+        this.mFromDragPercent = mFromDragPercent;
     }
 
     public boolean isEnableToRefresh() {
-        return enableToRefresh;
+        return mEnableToRefresh;
     }
 
     public void setEnableToRefresh(boolean enableToRefresh) {
-        this.enableToRefresh = enableToRefresh;
+        this.mEnableToRefresh = enableToRefresh;
     }
 
     public boolean isRefreshing() {
-        return isRefreshing;
+        return mIsRefreshing;
     }
 
     public void setIsRefreshing(boolean isRrefreshing) {
-        this.isRefreshing = isRrefreshing;
+        this.mIsRefreshing = isRrefreshing;
     }
 
     public boolean isNotify() {
-        return notify;
+        return mNotify;
     }
 
     public void setNotify(boolean notify) {
-        this.notify = notify;
+        this.mNotify = notify;
     }
 
     public boolean isBeingDragged() {
-        return isBeingDragged;
+        return mIsBeingDragged;
     }
 
     public void setBeingDragged(boolean beingDragged) {
-        isBeingDragged = beingDragged;
+        mIsBeingDragged = beingDragged;
     }
 
-    public int getCurrentOffset() {
-        return currentOffset;
+    public int getmCurrentOffset() {
+        return mCurrentOffset;
     }
 
-    public void setCurrentOffset(int currentOffset) {
-        this.currentOffset = currentOffset;
+    public void setmCurrentOffset(int mCurrentOffset) {
+        this.mCurrentOffset = mCurrentOffset;
     }
 
-    public float getCurrentDragPercent() {
-        return currentDragPercent;
+    public PullToRefreshView.OnRefreshListener getOnRefreshListener() {
+        return mOnRefreshListener;
     }
 
-    public void setCurrentDragPercent(float currentDragPercent) {
-        this.currentDragPercent = currentDragPercent;
+    public void setOnRefreshListener(PullToRefreshView.OnRefreshListener onRefreshListener) {
+        this.mOnRefreshListener = onRefreshListener;
     }
-
-//    public int getTotalDragDistance() {
-//        return totalDragDistance;
-//    }
-//
-//    public void setTotalDragDistance(int totalDragDistance) {
-//        this.totalDragDistance = totalDragDistance;
-//    }
 }

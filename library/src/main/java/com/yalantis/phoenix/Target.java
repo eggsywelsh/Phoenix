@@ -5,14 +5,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 /**
- * 滚动的目标
+ * wrapper mTargetView view
  *
  * @author chenyongkang
  * @Date 2017/5/27 17:05
  */
 final class Target {
 
-    private ViewGroup parent;
+    private ViewGroup mParent;
 
     private int mTargetPaddingTop;
     private int mTargetPaddingBottom;
@@ -25,24 +25,26 @@ final class Target {
 
     private int mTotalBottomDragDistance;
 
+    private float mCurrentDragPercent;
+
     /**
-     * 除了头和尾部之外，真正滚动的目标视图
+     * the real scroll mTargetView view or view group,beside header and tail
      */
-    private View target;
+    private View mTargetView;
 
     public Target(ViewGroup parent) {
-        this.parent = parent;
+        this.mParent = parent;
     }
 
-    public View getTarget() {
-        return target;
+    public View getTargetView() {
+        return mTargetView;
     }
 
     public int getTotalTopDragDistance() {
         return mTotalTopDragDistance;
     }
 
-    public int getCurrentOffsetTop(){
+    public int getCurrentOffsetTop() {
         return mCurrentOffsetTop;
     }
 
@@ -58,44 +60,76 @@ final class Target {
         this.mTotalBottomDragDistance = totalDragDistance;
     }
 
-    public void measure(int widthMeasureSpec, int heightMeasureSpec) {
-        target.measure(widthMeasureSpec, heightMeasureSpec);
-    }
-
     boolean isExist() {
-        return target != null;
+        return mTargetView != null;
     }
 
     void ensureTarget() {
-        if (target != null)
+        if (mTargetView != null)
             return;
-        if (parent != null && parent.getChildCount() > 0) {
-            for (int i = 0; i < parent.getChildCount(); i++) {
-                View child = parent.getChildAt(i);
+        if (mParent != null && mParent.getChildCount() > 0) {
+            for (int i = 0; i < mParent.getChildCount(); i++) {
+                View child = mParent.getChildAt(i);
                 if (!(child instanceof ImageView)) {
-                    target = child;
-                    mTargetPaddingBottom = target.getPaddingBottom();
-                    mTargetPaddingLeft = target.getPaddingLeft();
-                    mTargetPaddingRight = target.getPaddingRight();
-                    mTargetPaddingTop = target.getPaddingTop();
+                    mTargetView = child;
+                    mTargetPaddingBottom = mTargetView.getPaddingBottom();
+                    mTargetPaddingLeft = mTargetView.getPaddingLeft();
+                    mTargetPaddingRight = mTargetView.getPaddingRight();
+                    mTargetPaddingTop = mTargetView.getPaddingTop();
                     break;
                 }
             }
         }
     }
 
-    void setPadding(int left, int top, int right, int bottom){
-        if(target!=null){
-            target.setPadding(left,top,right,bottom);
+    void measure(int widthMeasureSpec, int heightMeasureSpec) {
+        mTargetView.measure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    void updatePadding(int left, int top, int right, int bottom) {
+        if (mTargetView != null) {
+            mTargetView.setPadding(left, top, right, bottom);
         }
     }
 
-    void update(){
+    void updatePaddingAndOffset() {
         updateCurrentOffSetTop();
-        target.setPadding(mTargetPaddingLeft, mTargetPaddingTop, mTargetPaddingRight, mTotalTopDragDistance);
+        updatePadding(mTargetPaddingLeft, mTargetPaddingTop, mTargetPaddingRight, mTotalTopDragDistance);
     }
 
-    void updateCurrentOffSetTop(){
-        mCurrentOffsetTop = target.getTop();
+    void updateCurrentOffSetTop() {
+        mCurrentOffsetTop = getTargetViewTop();
+    }
+
+    void updateLayout(int left, int top, int right, int bottom) {
+        int height = mParent.getMeasuredHeight();
+        int width = mParent.getMeasuredWidth();
+        mTargetView.layout(left, top + mCurrentOffsetTop,
+                left + width - right,
+                top + height - bottom + mCurrentOffsetTop);
+    }
+
+    int getTargetScrollY() {
+        return mTargetView.getScrollY();
+    }
+
+    int getTargetViewTop() {
+        return mTargetView != null ? mTargetView.getTop() : 0;
+    }
+
+    void offsetTopAndBottom(int offset) {
+        mTargetView.offsetTopAndBottom(offset);
+    }
+
+    void moveToStart(int targetTop) {
+        updatePadding(mTargetPaddingLeft, mTargetPaddingTop, mTargetPaddingRight, mTargetPaddingBottom + targetTop);
+    }
+
+    public float getCurrentDragPercent() {
+        return mCurrentDragPercent;
+    }
+
+    public void setCurrentDragPercent(float mCurrentDragPercent) {
+        this.mCurrentDragPercent = mCurrentDragPercent;
     }
 }

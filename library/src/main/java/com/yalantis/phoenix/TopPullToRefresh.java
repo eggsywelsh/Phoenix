@@ -11,7 +11,7 @@ import com.yalantis.phoenix.refresh_view.BaseRefreshView;
 import static com.yalantis.phoenix.PullToRefreshView.MAX_OFFSET_ANIMATION_DURATION;
 
 /**
- * 顶部刷新控件类
+ * Top refresh component
  *
  * @author chenyongkang
  * @Date 2017/5/27 15:10
@@ -52,14 +52,14 @@ final class TopPullToRefresh extends BasePullToRefreshData implements BasePullTo
 
     @Override
     public void setRefreshing(boolean refreshing) {
-        if (isRefreshing != refreshing) {
-            setRefreshing(refreshing, false /* notify */);
+        if (mIsRefreshing != refreshing) {
+            setRefreshing(refreshing, false /* mNotify */);
         }
     }
 
     @Override
     public void setOnRefreshListener(PullToRefreshView.OnRefreshListener listener) {
-
+        mOnRefreshListener = listener;
     }
 
     @Override
@@ -81,11 +81,11 @@ final class TopPullToRefresh extends BasePullToRefreshData implements BasePullTo
 
     @Override
     public void setRefreshing(boolean refreshing, boolean notify) {
-        if (isRefreshing != refreshing) {
-            super.notify = notify;
+        if (mIsRefreshing != refreshing) {
+            super.mNotify = notify;
             mTarget.ensureTarget();
-            super.isRefreshing = refreshing;
-            if (isRefreshing) {
+            super.mIsRefreshing = refreshing;
+            if (mIsRefreshing) {
                 mRefreshView.setPercent(1f, true);
                 animateOffsetToCorrectPosition();
             } else {
@@ -96,77 +96,69 @@ final class TopPullToRefresh extends BasePullToRefreshData implements BasePullTo
 
     @Override
     public void animateOffsetToStartPosition() {
-        from = mTarget.getCurrentOffsetTop();
-        fromDragPercent = currentDragPercent;
-        long animationDuration = Math.abs((long) (MAX_OFFSET_ANIMATION_DURATION * fromDragPercent));
+        mFrom = mTarget.getCurrentOffsetTop();
+        mFromDragPercent = mTarget.getCurrentDragPercent();
+        long animationDuration = Math.abs((long) (MAX_OFFSET_ANIMATION_DURATION * mFromDragPercent));
 
         mAnimateToStartPosition.reset();
         mAnimateToStartPosition.setDuration(animationDuration);
         mAnimateToStartPosition.setInterpolator(mDecelerateInterpolator);
         mAnimateToStartPosition.setAnimationListener(mToStartListener);
-        mRefreshView.clearAnimation();
-        mRefreshView.startAnimation(mAnimateToStartPosition);
+        mContainerView.clearAnimation();
+        mContainerView.startAnimation(mAnimateToStartPosition);
     }
 
     @Override
     public void animateOffsetToCorrectPosition() {
-        from = mTarget.getCurrentOffsetTop();
-        fromDragPercent = currentDragPercent;
+        mFrom = mTarget.getCurrentOffsetTop();
+        mFromDragPercent = mTarget.getCurrentDragPercent();
 
         mAnimateToCorrectPosition.reset();
         mAnimateToCorrectPosition.setDuration(MAX_OFFSET_ANIMATION_DURATION);
         mAnimateToCorrectPosition.setInterpolator(mDecelerateInterpolator);
-        mTopRefreshView.clearAnimation();
-        mTopRefreshView.startAnimation(mAnimateToCorrectPosition);
+        mContainerView.clearAnimation();
+        mContainerView.startAnimation(mAnimateToCorrectPosition);
 
-        if (isRefreshing) {
+        if (mIsRefreshing) {
             mRefreshView.start();
-            if (notify) {
-                if (mListener != null) {
-                    mListener.onRefresh();
+            if (mNotify) {
+                if (mOnRefreshListener != null) {
+                    mOnRefreshListener.onRefresh();
                 }
             }
         } else {
             mRefreshView.stop();
             animateOffsetToStartPosition();
         }
-        mTarget.update();
+        mTarget.updatePaddingAndOffset();
     }
-
 
     private final Animation mAnimateToCorrectPosition = new Animation() {
         @Override
         public void applyTransformation(float interpolatedTime, Transformation t) {
             int targetTop;
             int endTarget = mTarget.getTotalTopDragDistance();
-            targetTop = (from + (int) ((endTarget - from) * interpolatedTime));
-            int offset = targetTop - mTarget.getTop();
+            targetTop = (mFrom + (int) ((endTarget - mFrom) * interpolatedTime));
+            int offset = targetTop - mTarget.getTargetViewTop();
 
-            currentDragPercent = fromDragPercent - (fromDragPercent - 1.0f) * interpolatedTime;
-            mRefreshView.setPercent(currentDragPercent, false);
+            mTarget.setCurrentDragPercent(mFromDragPercent - (mFromDragPercent - 1.0f) * interpolatedTime);
+            mRefreshView.setPercent(mTarget.getCurrentDragPercent(), false);
 
-            setTargetOffsetTop(offset, false /* requires update */);
+            offsetTopAndBottom(offset, false);
         }
     };
 
-    private void setTargetOffsetTop(int offset, boolean requiresUpdate) {
-        mTarget.offsetTopAndBottom(offset);
-        mBaseTopRefreshView.offsetTopAndBottom(offset);
-        mCurrentOffsetTop = mTarget.getTop();
-        if (requiresUpdate && android.os.Build.VERSION.SDK_INT < 11) {
-            parent.invalidate();
-        }
-    }
-
     private void moveToStart(float interpolatedTime) {
-        int targetTop = from - (int) (from * interpolatedTime);
-        float targetPercent = fromDragPercent * (1.0f - interpolatedTime);
-        int offset = targetTop - mTarget.getTop();
+        int targetTop = mFrom - (int) (mFrom * interpolatedTime);
+        float targetPercent = mFromDragPercent * (1.0f - interpolatedTime);
+        int offset = targetTop - mTarget.getTargetViewTop();
 
-        currentDragPercent = targetPercent;
-        mRefreshView.setTopPercent(mCurrentDragPercent, true);
-        mTarget.setPadding(mTargetPaddingLeft, mTargetPaddingTop, mTargetPaddingRight, mTargetPaddingBottom + targetTop);
-        setTargetOffsetTop(offset, false);
+        mTarget.setCurrentDragPercent(targetPercent);
+        mRefreshView.setPercent(mTarget.getCurrentDragPercent(), true);
+
+        mTarget.moveToStart(targetTop);
+
+        offsetTopAndBottom(offset, false);
     }
 
     private Animation.AnimationListener mToStartListener = new Animation.AnimationListener() {
@@ -185,5 +177,30 @@ final class TopPullToRefresh extends BasePullToRefreshData implements BasePullTo
         }
     };
 
+    private final Animation mAnimateToStartPosition = new Animation() {
+        @Override
+        public void applyTransformation(float interpolatedTime, Transformation t) {
+            moveToStart(interpolatedTime);
+        }
+    };
 
+    @Override
+    public void updateRefreshViewLayout(int left, int top, int right, int bottom) {
+        int height = 0;
+        int width = 0;
+        if (mParent != null) {
+            height = mParent.getMeasuredHeight();
+            width = mParent.getMeasuredWidth();
+        }
+        mContainerView.layout(left, top, left + width - right, top + height - bottom);
+    }
+
+    public void offsetTopAndBottom(int offset, boolean requiresUpdate) {
+        mTarget.offsetTopAndBottom(offset);
+        mRefreshView.offsetTopAndBottom(offset);
+        mTarget.updateCurrentOffSetTop();
+        if (requiresUpdate && android.os.Build.VERSION.SDK_INT < 11) {
+            mParent.invalidate();
+        }
+    }
 }

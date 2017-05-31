@@ -5,6 +5,8 @@ import android.view.View;
 import com.yalantis.phoenix.refresh_view.BaseRefreshView;
 
 /**
+ * base pull to refresh interface
+ *
  * @author chenyongkang
  * @Date 2017/5/27 14:58
  */
@@ -25,7 +27,7 @@ public interface BasePullToRefresh {
     void setRefreshView(BaseRefreshView refreshView);
 
     /**
-     * set is refreshing,and notify listener if exists
+     * set is refreshing,and mNotify listener if exists
      *
      * @param refreshing
      * @param notify
@@ -84,4 +86,20 @@ public interface BasePullToRefresh {
      * @return
      */
     boolean hasRefreshView();
+
+    /**
+     * updatePaddingAndOffset refresh view's layout
+     *
+     * @param left
+     * @param top
+     * @param right
+     * @param bottom
+     */
+    void updateRefreshViewLayout(int left,int top,int right,int bottom);
+
+    /**
+     * set the offset top and bottom
+     * @param offset
+     */
+    void offsetTopAndBottom(int offset,boolean requiresUpdate);
 }

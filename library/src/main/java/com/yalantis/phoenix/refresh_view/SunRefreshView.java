@@ -115,7 +115,7 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
     }
 
     @Override
-    public void setTopPercent(float percent, boolean invalidate) {
+    public void setPercent(float percent, boolean invalidate) {
         setPercent(percent);
         if (invalidate) setRotate(percent);
     }
@@ -303,10 +303,5 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
         mAnimation.setRepeatMode(Animation.RESTART);
         mAnimation.setInterpolator(LINEAR_INTERPOLATOR);
         mAnimation.setDuration(ANIMATION_DURATION);
-    }
-
-    @Override
-    public void setBottomPercent(float percent, boolean invalidate) {
-
     }
 }

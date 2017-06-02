@@ -1,5 +1,6 @@
 package com.yalantis.phoenix;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
  */
 final class Target {
 
+    private static final String TAG = PullToRefreshView.TAG;
+
     private ViewGroup mParent;
 
     private int mTargetPaddingTop;
@@ -20,6 +23,7 @@ final class Target {
     private int mTargetPaddingLeft;
 
     private int mCurrentOffsetTop;
+    private int mCurrentOffsetBottom;
 
     private int mTotalTopDragDistance;
 
@@ -46,6 +50,10 @@ final class Target {
 
     public int getCurrentOffsetTop() {
         return mCurrentOffsetTop;
+    }
+
+    public int getCurrentOffsetBottom() {
+        return mCurrentOffsetBottom;
     }
 
     public void setTotalTopDragDistance(int totalDragDistance) {
@@ -94,11 +102,18 @@ final class Target {
 
     void updatePaddingAndOffset() {
         updateCurrentOffSetTop();
+//        updateCurrentOffsetBottom();
         updatePadding(mTargetPaddingLeft, mTargetPaddingTop, mTargetPaddingRight, mTotalTopDragDistance);
     }
 
     void updateCurrentOffSetTop() {
         mCurrentOffsetTop = getTargetViewTop();
+        Log.d(TAG, "offset top " + mCurrentOffsetTop);
+    }
+
+    void updateCurrentOffsetBottom(int offset) {
+        mCurrentOffsetBottom += offset;
+        Log.d(TAG,"sum offset bottom "+mCurrentOffsetBottom);
     }
 
     void updateLayout(int left, int top, int right, int bottom) {
@@ -116,6 +131,10 @@ final class Target {
     int getTargetViewTop() {
         return mTargetView != null ? mTargetView.getTop() : 0;
     }
+
+//    int getTargetViewBottom() {
+//        return mTargetView != null ? mTargetView.getBottom() : 0;
+//    }
 
     void offsetTopAndBottom(int offset) {
         mTargetView.offsetTopAndBottom(offset);

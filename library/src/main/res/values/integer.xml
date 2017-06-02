@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="list_bottom_load_more_ani_duration">50</integer>
+    <integer name="common_loading_ani_duration">60</integer>
+    <integer name="picture_content_max_lines">3</integer>
+    <integer name="config_activityDefaultDur">250</integer>
+</resources>

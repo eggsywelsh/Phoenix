@@ -7,18 +7,19 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.Transformation;
+import android.widget.ImageView;
 
 import com.yalantis.phoenix.PullToRefreshView;
 import com.yalantis.phoenix.R;
 import com.yalantis.phoenix.util.Utils;
 
 /**
- * Created by Oleksii Shliama on 22/12/2014.
- * https://dribbble.com/shots/1650317-Pull-to-Refresh-Rentals
+ * Created by chen
  */
 public class SunRefreshView extends BaseRefreshView implements Animatable {
 
@@ -67,10 +68,13 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
 
     private boolean isRefreshing = false;
 
-    public SunRefreshView(Context context, final PullToRefreshView parent) {
+    private ImageView mContainerView;
+
+    public SunRefreshView(Context context, final PullToRefreshView parent, ImageView containerView) {
         super(context, parent);
         mParent = parent;
         mMatrix = new Matrix();
+        mContainerView = containerView;
 
         setupAnimations();
         parent.post(new Runnable() {
@@ -303,5 +307,10 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
         mAnimation.setRepeatMode(Animation.RESTART);
         mAnimation.setInterpolator(LINEAR_INTERPOLATOR);
         mAnimation.setDuration(ANIMATION_DURATION);
+    }
+
+    @Override
+    public Drawable getRefreshDrawable() {
+        return this;
     }
 }

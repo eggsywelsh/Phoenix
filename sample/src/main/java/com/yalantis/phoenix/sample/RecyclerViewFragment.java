@@ -29,13 +29,13 @@ public class RecyclerViewFragment extends BaseRefreshFragment {
         recyclerView.setAdapter(new SampleAdapter());
 
         mPullToRefreshView = (PullToRefreshView) rootView.findViewById(R.id.pull_to_refresh);
-        mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+        mPullToRefreshView.setOnTopRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mPullToRefreshView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mPullToRefreshView.setRefreshing(false);
+                        mPullToRefreshView.setTopRefreshing(false);
                     }
                 }, REFRESH_DELAY);
             }

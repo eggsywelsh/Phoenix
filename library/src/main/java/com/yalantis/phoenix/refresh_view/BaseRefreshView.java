@@ -3,13 +3,13 @@ package com.yalantis.phoenix.refresh_view;
 import android.content.Context;
 import android.graphics.ColorFilter;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
 import com.yalantis.phoenix.PullToRefreshView;
 
-public abstract class BaseRefreshView extends Drawable implements Drawable.Callback, Animatable {
+
+public abstract class BaseRefreshView extends Drawable implements Drawable.Callback, SuperRefreshView {
 
     private PullToRefreshView mRefreshLayout;
     private boolean mEndOfRefreshing;
@@ -25,10 +25,6 @@ public abstract class BaseRefreshView extends Drawable implements Drawable.Callb
     public PullToRefreshView getRefreshLayout() {
         return mRefreshLayout;
     }
-
-    public abstract void setPercent(float percent, boolean invalidate);
-
-    public abstract void offsetTopAndBottom(int offset);
 
     @Override
     public void invalidateDrawable(@NonNull Drawable who) {

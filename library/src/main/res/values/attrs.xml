@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="PullToRefreshView">
-        <attr name="type" format="enum">
+        <!--<attr name="type" format="enum">
             <enum name="sun" value="0" />
-        </attr>
+        </attr>-->
         <attr name="isPullTopToRefresh" format="boolean" />
         <attr name="isPullBottomToRefresh" format="boolean" />
         <attr name="totalTopDragDistance" format="dimension" />
         <attr name="totalBottomDragDistance" format="dimension" />
+        <attr name="topRefreshHeight" format="dimension" />
+        <attr name="bottomRefreshHeight" format="dimension" />
     </declare-styleable>
 </resources>

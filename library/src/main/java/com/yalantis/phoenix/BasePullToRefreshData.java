@@ -1,10 +1,9 @@
 package com.yalantis.phoenix;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.ImageView;
 
-import com.yalantis.phoenix.refresh_view.BaseRefreshView;
+import com.yalantis.phoenix.refresh_view.SuperRefreshView;
 
 /**
  * Pull to refresh data
@@ -16,7 +15,7 @@ class BasePullToRefreshData {
 
     ImageView mContainerView;
 
-    BaseRefreshView mRefreshView;
+    SuperRefreshView mRefreshViewAnimate;
 
     float mInitialMotionY;
 
@@ -40,7 +39,7 @@ class BasePullToRefreshData {
         this.mContainerView = new ImageView(mContext);
     }
 
-    public View getContainerView() {
+    public ImageView getContainerView() {
         return mContainerView;
     }
 
@@ -48,12 +47,12 @@ class BasePullToRefreshData {
         this.mContainerView = mContainerView;
     }
 
-    public BaseRefreshView getRefreshView() {
-        return mRefreshView;
+    public SuperRefreshView getRefreshViewAnimate() {
+        return mRefreshViewAnimate;
     }
 
-    public void setRefreshView(BaseRefreshView mRefreshView) {
-        this.mRefreshView = mRefreshView;
+    public void setmRefreshViewAnimate(SuperRefreshView mRefreshView) {
+        this.mRefreshViewAnimate = mRefreshView;
     }
 
     public float getInitialMotionY() {

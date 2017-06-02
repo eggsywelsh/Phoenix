@@ -1,8 +1,8 @@
 package com.yalantis.phoenix;
 
-import android.view.View;
+import android.widget.ImageView;
 
-import com.yalantis.phoenix.refresh_view.BaseRefreshView;
+import com.yalantis.phoenix.refresh_view.SuperRefreshView;
 
 /**
  * base pull to refresh interface
@@ -17,14 +17,14 @@ public interface BasePullToRefresh {
      *
      * @return
      */
-    View getContainerView();
+    ImageView getContainerView();
 
     /**
      * set the refresh view
      *
      * @param refreshView
      */
-    void setRefreshView(BaseRefreshView refreshView);
+    void setRefreshView(SuperRefreshView refreshView);
 
     /**
      * set is refreshing,and mNotify listener if exists

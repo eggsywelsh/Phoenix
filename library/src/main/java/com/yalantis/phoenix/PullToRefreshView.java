@@ -25,7 +25,6 @@ public class PullToRefreshView extends ViewGroup {
     private static final float TOP_DRAG_RATE = .5f;
     private static final float BOTTOM_DRAG_RATE = .5f;
 
-    public static final int STYLE_SUN = 0;
     public static final int MAX_OFFSET_ANIMATION_DURATION = 700;
 
     private static final int INVALID_POINTER = -1;
@@ -210,7 +209,7 @@ public class PullToRefreshView extends ViewGroup {
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                Log.d(TAG,"onInterceptTouchEvent[ACTION_DOWN]");
+                Log.d(TAG, "onInterceptTouchEvent[ACTION_DOWN]");
                 if (mCompTopToRefresh != null) {
                     mCompTopToRefresh.offsetTopAndBottom(0, true);
                 }
@@ -229,7 +228,7 @@ public class PullToRefreshView extends ViewGroup {
                 mInitialMotionY = initialMotionY;
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.d(TAG,"onInterceptTouchEvent[ACTION_MOVE]");
+                Log.d(TAG, "onInterceptTouchEvent[ACTION_MOVE]");
                 if (mActivePointerId == INVALID_POINTER) {
                     return false;
                 }
@@ -246,7 +245,7 @@ public class PullToRefreshView extends ViewGroup {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                Log.d(TAG,"onInterceptTouchEvent[ACTION_UP | ACTION_CANCEL]");
+                Log.d(TAG, "onInterceptTouchEvent[ACTION_UP | ACTION_CANCEL]");
                 mInitialMotionY = 0;
                 mIsBeingDownDragged = false;
                 mIsBeingUpDragged = false;
@@ -271,7 +270,7 @@ public class PullToRefreshView extends ViewGroup {
 
         switch (action) {
             case MotionEvent.ACTION_MOVE: {
-                Log.d(TAG,"onTouchEvent[ACTION_MOVE]");
+                Log.d(TAG, "onTouchEvent[ACTION_MOVE]");
                 final int pointerIndex = MotionEventCompat.findPointerIndex(ev, mActivePointerId);
                 if (pointerIndex < 0) {
                     return false;
@@ -317,7 +316,7 @@ public class PullToRefreshView extends ViewGroup {
 
                     float boundedDragPercent = Math.max(-1f, mTarget.getCurrentDragPercent());
 
-                    float extraOS = scrollBottom + mTarget.getTotalBottomDragDistance();
+                    float extraOS = scrollBottom - mTarget.getTotalBottomDragDistance();
 
                     float slingshotDist = mTarget.getTotalBottomDragDistance();
 
@@ -328,7 +327,7 @@ public class PullToRefreshView extends ViewGroup {
                             (tensionSlingshotPercent / 4), 2)) * 2f;
 
                     float extraMove = (slingshotDist) * tensionPercent / 2;
-                    int targetY = (int) ((slingshotDist * boundedDragPercent) + extraMove);
+                    int targetY = (int) ((slingshotDist * boundedDragPercent) - extraMove);
                     Log.d(TAG, "targetY " + targetY + " , mTarget.getCurrentOffsetBottom() " + mTarget.getCurrentOffsetBottom());
                     mCompBottomToRefresh.setRefreshViewPercent(mTarget.getCurrentDragPercent(), true);
                     Log.d(TAG, " pull up , offset " + (targetY - mTarget.getCurrentOffsetBottom()));
@@ -346,7 +345,7 @@ public class PullToRefreshView extends ViewGroup {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL: {
-                Log.d(TAG,"onTouchEvent[ACTION_UP | ACTION_CANCEL]");
+                Log.d(TAG, "onTouchEvent[ACTION_UP | ACTION_CANCEL]");
                 if (mActivePointerId == INVALID_POINTER) {
                     return false;
                 }

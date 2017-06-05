@@ -23,7 +23,7 @@ final class BottomPullToRefresh extends BasePullToRefreshData implements BasePul
 
     private static final float DECELERATE_INTERPOLATION_FACTOR = 2f;
 
-    static final int DRAG_MAX_DISTANCE = 120;
+    static final int DRAG_MAX_DISTANCE = 200;
 
     DecelerateInterpolator mDecelerateInterpolator = new DecelerateInterpolator(DECELERATE_INTERPOLATION_FACTOR);
 
@@ -134,7 +134,7 @@ final class BottomPullToRefresh extends BasePullToRefreshData implements BasePul
             mRefreshViewAnimate.stop();
             animateOffsetToStartPosition();
         }
-        mTarget.updatePaddingAndOffset();
+//        mTarget.updatePaddingAndOffset();
     }
 
     private final Animation mAnimateToCorrectPosition = new Animation() {
@@ -203,13 +203,14 @@ final class BottomPullToRefresh extends BasePullToRefreshData implements BasePul
     }
 
     public void offsetTopAndBottom(int offset, boolean requiresUpdate) {
+        Log.d(TAG, "offsetTopAndBottom " + offset);
         mTarget.offsetTopAndBottom(offset);
         if (mContainerView.getDrawable() == null && mRefreshViewAnimate != null) {
             mContainerView.setImageDrawable(mRefreshViewAnimate.getRefreshDrawable());
             mContainerView.scrollTo(0, -mTarget.getTotalBottomDragDistance());
             Log.d(TAG, "init offsetTopAndBottom");
         }
-        Log.d(TAG, "offsetTopAndBottom " + (Math.abs(mTarget.getCurrentOffsetBottom()) - mTarget.getTotalBottomDragDistance()));
+//        Log.d(TAG, "offsetTopAndBottom " + (Math.abs(mTarget.getCurrentOffsetBottom()) - mTarget.getTotalBottomDragDistance()));
 //        mRefreshViewAnimate.offsetTopAndBottom(10);
 //         mRefreshViewAnimate.offsetTopAndBottom(Math.abs(mTarget.getCurrentOffsetBottom()) - mTarget.getTotalBottomDragDistance());
 //        mContainerView.scrollTo(0, offset);

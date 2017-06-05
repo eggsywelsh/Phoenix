@@ -29,14 +29,14 @@ public class BaseRefreshFragment extends Fragment {
 
         int[] icons = {
                 R.drawable.icon_1
-//                ,R.drawable.icon_2
-//                ,R.drawable.icon_3
+                ,R.drawable.icon_2
+                ,R.drawable.icon_3
         };
 
         int[] colors = {
                 R.color.saffron
-//                , R.color.eggplant
-//                ,R.color.sienna
+                , R.color.eggplant
+                , R.color.sienna
         };
 
         for (int i = 0; i < icons.length; i++) {

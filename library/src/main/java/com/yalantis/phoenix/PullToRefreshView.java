@@ -210,6 +210,7 @@ public class PullToRefreshView extends ViewGroup {
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                Log.d(TAG,"onInterceptTouchEvent[ACTION_DOWN]");
                 if (mCompTopToRefresh != null) {
                     mCompTopToRefresh.offsetTopAndBottom(0, true);
                 }
@@ -226,9 +227,9 @@ public class PullToRefreshView extends ViewGroup {
                     return false;
                 }
                 mInitialMotionY = initialMotionY;
-//                mTarget.offsetTopAndBottom(5);
                 break;
             case MotionEvent.ACTION_MOVE:
+                Log.d(TAG,"onInterceptTouchEvent[ACTION_MOVE]");
                 if (mActivePointerId == INVALID_POINTER) {
                     return false;
                 }
@@ -245,6 +246,7 @@ public class PullToRefreshView extends ViewGroup {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                Log.d(TAG,"onInterceptTouchEvent[ACTION_UP | ACTION_CANCEL]");
                 mInitialMotionY = 0;
                 mIsBeingDownDragged = false;
                 mIsBeingUpDragged = false;
@@ -269,6 +271,7 @@ public class PullToRefreshView extends ViewGroup {
 
         switch (action) {
             case MotionEvent.ACTION_MOVE: {
+                Log.d(TAG,"onTouchEvent[ACTION_MOVE]");
                 final int pointerIndex = MotionEventCompat.findPointerIndex(ev, mActivePointerId);
                 if (pointerIndex < 0) {
                     return false;
@@ -299,7 +302,7 @@ public class PullToRefreshView extends ViewGroup {
 
                     float extraMove = (slingshotDist) * tensionPercent / 2;
                     int targetY = (int) ((slingshotDist * boundedDragPercent) + extraMove);
-                    Log.d(TAG, "targetY " + targetY);
+                    Log.d(TAG, "targetY " + targetY + " , mTarget.getCurrentOffsetTop() " + mTarget.getCurrentOffsetTop());
                     mCompTopToRefresh.setRefreshViewPercent(mTarget.getCurrentDragPercent(), true);
                     Log.d(TAG, " pull down , offset " + (targetY - mTarget.getCurrentOffsetTop()));
                     mCompTopToRefresh.offsetTopAndBottom(targetY - mTarget.getCurrentOffsetTop(), true);
@@ -326,7 +329,7 @@ public class PullToRefreshView extends ViewGroup {
 
                     float extraMove = (slingshotDist) * tensionPercent / 2;
                     int targetY = (int) ((slingshotDist * boundedDragPercent) + extraMove);
-                    Log.d(TAG, "targetY " + targetY);
+                    Log.d(TAG, "targetY " + targetY + " , mTarget.getCurrentOffsetBottom() " + mTarget.getCurrentOffsetBottom());
                     mCompBottomToRefresh.setRefreshViewPercent(mTarget.getCurrentDragPercent(), true);
                     Log.d(TAG, " pull up , offset " + (targetY - mTarget.getCurrentOffsetBottom()));
                     mCompBottomToRefresh.offsetTopAndBottom(targetY - mTarget.getCurrentOffsetBottom(), true);
@@ -343,6 +346,7 @@ public class PullToRefreshView extends ViewGroup {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL: {
+                Log.d(TAG,"onTouchEvent[ACTION_UP | ACTION_CANCEL]");
                 if (mActivePointerId == INVALID_POINTER) {
                     return false;
                 }
@@ -364,15 +368,15 @@ public class PullToRefreshView extends ViewGroup {
                         }
                     }
                 } else {  // pull up
-//                    final float overScrollBottom = (yDiff) * BOTTOM_DRAG_RATE;
-//                    if (mCompBottomToRefresh != null) {
-//                        if (Math.abs(overScrollBottom) >= mTarget.getTotalBottomDragDistance()) {
-//                            mCompBottomToRefresh.setRefreshing(true, true);
-//                        } else {
-//                            mCompBottomToRefresh.setIsRefreshing(false);
-//                            mCompBottomToRefresh.animateOffsetToStartPosition();
-//                        }
-//                    }
+                    final float overScrollBottom = (yDiff) * BOTTOM_DRAG_RATE;
+                    if (mCompBottomToRefresh != null) {
+                        if (Math.abs(overScrollBottom) >= mTarget.getTotalBottomDragDistance()) {
+                            mCompBottomToRefresh.setRefreshing(true, true);
+                        } else {
+                            mCompBottomToRefresh.setIsRefreshing(false);
+                            mCompBottomToRefresh.animateOffsetToStartPosition();
+                        }
+                    }
                 }
 
                 mActivePointerId = INVALID_POINTER;

@@ -90,7 +90,7 @@ final class BottomPullToRefresh extends BasePullToRefreshData implements BasePul
             mTarget.ensureTarget();
             super.mIsRefreshing = refreshing;
             if (mIsRefreshing) {
-                mRefreshViewAnimate.setPercent(1f, true);
+                mRefreshViewAnimate.setPercent(-1f, true);
                 animateOffsetToCorrectPosition();
             } else {
                 animateOffsetToStartPosition();
@@ -141,12 +141,12 @@ final class BottomPullToRefresh extends BasePullToRefreshData implements BasePul
 
         @Override
         public void applyTransformation(float interpolatedTime, Transformation t) {
-            int targetTop;
-            int endTarget = mTarget.getTotalBottomDragDistance();
-            targetTop = (mFrom + (int) ((endTarget - mFrom) * interpolatedTime));
-            int offset = targetTop - mTarget.getTargetViewTop();
+            int targetBottom;
+            int endTarget = -mTarget.getTotalBottomDragDistance();
+            targetBottom = (mFrom + (int) ((endTarget - mFrom) * interpolatedTime));
+            int offset = targetBottom - mTarget.getTargetViewBottom();
 
-            mTarget.setCurrentDragPercent(mFromDragPercent - (mFromDragPercent - 1.0f) * interpolatedTime);
+            mTarget.setCurrentDragPercent(mFromDragPercent - (1.0f + mFromDragPercent) * interpolatedTime);
             mRefreshViewAnimate.setPercent(mTarget.getCurrentDragPercent(), false);
 
             offsetTopAndBottom(offset, false);
@@ -156,7 +156,7 @@ final class BottomPullToRefresh extends BasePullToRefreshData implements BasePul
     private void moveToStart(float interpolatedTime) {
         int targetBottom = mFrom - (int) (mFrom * interpolatedTime);
         float targetPercent = mFromDragPercent * (1.0f - interpolatedTime);
-        int offset = targetBottom - mTarget.getTargetViewTop();
+        int offset = targetBottom - mTarget.getCurrentOffsetBottom();
 
         mTarget.setCurrentDragPercent(targetPercent);
         mRefreshViewAnimate.setPercent(mTarget.getCurrentDragPercent(), true);
@@ -211,9 +211,9 @@ final class BottomPullToRefresh extends BasePullToRefreshData implements BasePul
         }
         Log.d(TAG, "offsetTopAndBottom " + (Math.abs(mTarget.getCurrentOffsetBottom()) - mTarget.getTotalBottomDragDistance()));
 //        mRefreshViewAnimate.offsetTopAndBottom(10);
-         mRefreshViewAnimate.offsetTopAndBottom(Math.abs(mTarget.getCurrentOffsetBottom()) - mTarget.getTotalBottomDragDistance());
+//         mRefreshViewAnimate.offsetTopAndBottom(Math.abs(mTarget.getCurrentOffsetBottom()) - mTarget.getTotalBottomDragDistance());
 //        mContainerView.scrollTo(0, offset);
-//        mContainerView.scrollTo(0, Math.abs(mTarget.getCurrentOffsetBottom()) - mTarget.getTotalBottomDragDistance());
+        mContainerView.scrollTo(0, Math.abs(mTarget.getCurrentOffsetBottom()) - mTarget.getTotalBottomDragDistance());
         mTarget.updateCurrentOffsetBottom(offset);
         if (requiresUpdate && android.os.Build.VERSION.SDK_INT < 11) {
             mParent.invalidate();

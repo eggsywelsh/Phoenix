@@ -132,9 +132,9 @@ final class Target {
         return mTargetView != null ? mTargetView.getTop() : 0;
     }
 
-//    int getTargetViewBottom() {
-//        return mTargetView != null ? mTargetView.getBottom() : 0;
-//    }
+    int getTargetViewBottom() {
+        return mTargetView != null ? mCurrentOffsetBottom : 0;
+    }
 
     void offsetTopAndBottom(int offset) {
         mTargetView.offsetTopAndBottom(offset);

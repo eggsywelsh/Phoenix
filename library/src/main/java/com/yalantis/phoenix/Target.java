@@ -1,6 +1,5 @@
 package com.yalantis.phoenix;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,7 +25,6 @@ final class Target {
     private int mCurrentOffsetBottom;
 
     private int mTotalTopDragDistance;
-
     private int mTotalBottomDragDistance;
 
     private float mCurrentDragPercent;
@@ -108,12 +106,10 @@ final class Target {
 
     void updateCurrentOffSetTop() {
         mCurrentOffsetTop = getTargetViewTop();
-        Log.d(TAG, "offset top " + mCurrentOffsetTop);
     }
 
     void updateCurrentOffsetBottom(int offset) {
         mCurrentOffsetBottom += offset;
-        Log.d(TAG,"sum offset bottom "+mCurrentOffsetBottom);
     }
 
     void updateLayout(int left, int top, int right, int bottom) {

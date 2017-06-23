@@ -6,31 +6,45 @@ import android.widget.ImageView;
 import com.yalantis.phoenix.refresh_view.SuperRefreshView;
 
 /**
- * Pull to refresh data
+ * Pull to refresh's data
  *
  * @author chenyongkang
  * @Date 2017/5/27 15:18
  */
 class BasePullToRefreshData {
 
+    /**
+     * Wrapper animation drawable or wrapper a common drawable
+     */
     ImageView mContainerView;
 
     SuperRefreshView mRefreshViewAnimate;
 
-    float mInitialMotionY;
-
+    /**
+     * record the position where the animation start
+     */
     int mFrom;
 
+    /**
+     * record the percent which is current drag
+     */
     float mFromDragPercent;
 
+    /**
+     * Whether is notify the {@link PullToRefreshView.OnRefreshListener} to refreshing
+     */
     boolean mNotify;
 
-    boolean mIsBeingDragged;
-
-    int mCurrentOffset;
-
+    /**
+     * set current refresh view is enable to refresh
+     */
     boolean mEnableToRefresh;
 
+    /**
+     * Whether the view is refreshing
+     * true is refreshing
+     * false is not refreshing
+     */
     boolean mIsRefreshing;
 
     PullToRefreshView.OnRefreshListener mOnRefreshListener;
@@ -43,84 +57,12 @@ class BasePullToRefreshData {
         return mContainerView;
     }
 
-    public void setContainerView(ImageView mContainerView) {
-        this.mContainerView = mContainerView;
-    }
-
-    public SuperRefreshView getRefreshViewAnimate() {
-        return mRefreshViewAnimate;
-    }
-
-    public void setmRefreshViewAnimate(SuperRefreshView mRefreshView) {
-        this.mRefreshViewAnimate = mRefreshView;
-    }
-
-    public float getInitialMotionY() {
-        return mInitialMotionY;
-    }
-
-    public void setInitialMotionY(float mInitialMotionY) {
-        this.mInitialMotionY = mInitialMotionY;
-    }
-
-    public int getFrom() {
-        return mFrom;
-    }
-
-    public void setFrom(int mFrom) {
-        this.mFrom = mFrom;
-    }
-
-    public float getFromDragPercent() {
-        return mFromDragPercent;
-    }
-
-    public void setFromDragPercent(float mFromDragPercent) {
-        this.mFromDragPercent = mFromDragPercent;
-    }
-
-    public boolean isEnableToRefresh() {
-        return mEnableToRefresh;
-    }
-
-    public void setEnableToRefresh(boolean enableToRefresh) {
-        this.mEnableToRefresh = enableToRefresh;
-    }
-
     public boolean isRefreshing() {
         return mIsRefreshing;
     }
 
     public void setIsRefreshing(boolean isRrefreshing) {
         this.mIsRefreshing = isRrefreshing;
-    }
-
-    public boolean isNotify() {
-        return mNotify;
-    }
-
-    public void setNotify(boolean notify) {
-        this.mNotify = notify;
-    }
-
-    public boolean isBeingDragged() {
-        return mIsBeingDragged;
-    }
-
-    public void setBeingDragged(boolean beingDragged) {
-        mIsBeingDragged = beingDragged;
-    }
-
-    public int getmCurrentOffset() {
-        return mCurrentOffset;
-    }
-
-    public void setmCurrentOffset(int mCurrentOffset) {
-        this.mCurrentOffset = mCurrentOffset;
-    }
-
-    public PullToRefreshView.OnRefreshListener getOnRefreshListener() {
-        return mOnRefreshListener;
     }
 
     public void setOnRefreshListener(PullToRefreshView.OnRefreshListener onRefreshListener) {

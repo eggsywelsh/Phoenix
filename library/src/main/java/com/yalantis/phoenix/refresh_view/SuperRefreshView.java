@@ -4,6 +4,8 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 
 /**
+ * super refreshing view
+ *
  * @author chenyongkang
  * @Date 2017/6/1 16:20
  */
@@ -13,6 +15,6 @@ public interface SuperRefreshView extends Animatable {
 
     void offsetTopAndBottom(int offset);
 
-    Drawable getRefreshDrawable();
+    Drawable obtainRefreshDrawable();
 
 }

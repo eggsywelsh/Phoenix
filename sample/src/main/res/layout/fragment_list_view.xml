@@ -9,8 +9,10 @@
         android:layout_height="match_parent"
         refreshView:isPullBottomToRefresh="true"
         refreshView:isPullTopToRefresh="true"
-        refreshView:totalTopDragDistance="120dp"
-        refreshView:totalBottomDragDistance="40dp"
+        refreshView:topDragDistance="120dp"
+        refreshView:bottomDragDistance="30dp"
+        refreshView:pullTopElastic="true"
+        refreshView:pullBottomElastic="true"
         >
 
         <ListView

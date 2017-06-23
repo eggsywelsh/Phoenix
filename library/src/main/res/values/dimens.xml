@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="refresh_view_light_width">83dp</dimen>
+    <dimen name="refresh_view_light_height">67dp</dimen>
+
+</resources>

@@ -4,4 +4,5 @@
     <integer name="common_loading_ani_duration">60</integer>
     <integer name="picture_content_max_lines">3</integer>
     <integer name="config_activityDefaultDur">250</integer>
+    <integer name = "common_state_loading_ani_duration">40</integer>
 </resources>

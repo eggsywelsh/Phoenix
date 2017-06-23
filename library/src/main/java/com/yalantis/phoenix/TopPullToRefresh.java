@@ -41,7 +41,7 @@ final class TopPullToRefresh extends BasePullToRefreshData implements BasePullTo
     public void setRefreshView(SuperRefreshView refreshView) {
         mRefreshViewAnimate = refreshView;
         if (refreshView != null) {
-            mContainerView.setImageDrawable(refreshView.getRefreshDrawable());
+            mContainerView.setImageDrawable(refreshView.obtainRefreshDrawable());
         }
     }
 

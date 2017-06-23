@@ -12,7 +12,6 @@ import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.Transformation;
-import android.widget.ImageView;
 
 import com.yalantis.phoenix.PullToRefreshView;
 import com.yalantis.phoenix.R;
@@ -21,7 +20,7 @@ import com.yalantis.phoenix.util.Utils;
 /**
  * Created by chen
  */
-public class SunRefreshView extends BaseRefreshView implements Animatable {
+public class SunRefreshView extends BaseDrawableRefreshView implements Animatable {
 
     private static final float SCALE_START_PERCENT = 0.5f;
     private static final int ANIMATION_DURATION = 1000;
@@ -68,13 +67,10 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
 
     private boolean isRefreshing = false;
 
-    private ImageView mContainerView;
-
-    public SunRefreshView(Context context, final PullToRefreshView parent, ImageView containerView) {
+    public SunRefreshView(Context context, final PullToRefreshView parent) {
         super(context, parent);
         mParent = parent;
         mMatrix = new Matrix();
-        mContainerView = containerView;
 
         setupAnimations();
         parent.post(new Runnable() {
@@ -310,7 +306,7 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
     }
 
     @Override
-    public Drawable getRefreshDrawable() {
+    public Drawable obtainRefreshDrawable() {
         return this;
     }
 }

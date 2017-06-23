@@ -1,7 +1,5 @@
 package com.yalantis.phoenix;
 
-import android.widget.ImageView;
-
 import com.yalantis.phoenix.refresh_view.SuperRefreshView;
 
 /**
@@ -11,13 +9,6 @@ import com.yalantis.phoenix.refresh_view.SuperRefreshView;
  * @Date 2017/5/27 14:58
  */
 public interface BasePullToRefresh {
-
-    /**
-     * return container view
-     *
-     * @return
-     */
-    ImageView getContainerView();
 
     /**
      * set the refresh view
@@ -30,7 +21,8 @@ public interface BasePullToRefresh {
      * set is refreshing,and mNotify listener if exists
      *
      * @param refreshing
-     * @param notify
+     * @param notify     true,should be notify to the {@link PullToRefreshView.OnRefreshListener}
+     *                   false, otherside
      */
     void setRefreshing(boolean refreshing, final boolean notify);
 
@@ -50,12 +42,13 @@ public interface BasePullToRefresh {
 
     /**
      * set container view padding
+     *
      * @param left
      * @param top
      * @param right
      * @param bottom
      */
-    void setContainerViewPadding(int left, int top, int right, int bottom) ;
+    void setContainerViewPadding(int left, int top, int right, int bottom);
 
     /**
      * remeasure container view
@@ -71,12 +64,12 @@ public interface BasePullToRefresh {
     void setRefreshViewPercent(float percent, boolean invalidate);
 
     /**
-     * animate to start position
+     * animate the top or bottom refresh view to start position
      */
     void animateOffsetToStartPosition();
 
     /**
-     * animate to correct position
+     * animate the top or bottom refresh view to correct position
      */
     void animateOffsetToCorrectPosition();
 
@@ -95,11 +88,12 @@ public interface BasePullToRefresh {
      * @param right
      * @param bottom
      */
-    void updateRefreshViewLayout(int left,int top,int right,int bottom);
+    void updateRefreshViewLayout(int left, int top, int right, int bottom);
 
     /**
-     * set the offset top and bottom
+     * set the refreshing view offset top and bottom
+     *
      * @param offset
      */
-    void offsetTopAndBottom(int offset,boolean requiresUpdate);
+    void offsetTopAndBottom(int offset, boolean requiresUpdate);
 }

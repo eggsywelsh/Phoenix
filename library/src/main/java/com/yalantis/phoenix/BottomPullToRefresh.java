@@ -44,7 +44,7 @@ final class BottomPullToRefresh extends BasePullToRefreshData implements BasePul
     public void setRefreshView(SuperRefreshView refreshView) {
         mRefreshViewAnimate = refreshView;
 //        if (refreshView != null) {
-//            mContainerView.setImageDrawable(refreshView.getRefreshDrawable());
+//            mContainerView.setImageDrawable(refreshView.obtainRefreshDrawable());
 //            mContainerView.getDrawable()
 //        }
     }
@@ -206,7 +206,7 @@ final class BottomPullToRefresh extends BasePullToRefreshData implements BasePul
         Log.d(TAG, "offsetTopAndBottom " + offset);
         mTarget.offsetTopAndBottom(offset);
         if (mContainerView.getDrawable() == null && mRefreshViewAnimate != null) {
-            mContainerView.setImageDrawable(mRefreshViewAnimate.getRefreshDrawable());
+            mContainerView.setImageDrawable(mRefreshViewAnimate.obtainRefreshDrawable());
             mContainerView.scrollTo(0, -mTarget.getTotalBottomDragDistance());
             Log.d(TAG, "init offsetTopAndBottom");
         }

@@ -9,12 +9,11 @@ import android.support.annotation.NonNull;
 import com.yalantis.phoenix.PullToRefreshView;
 
 
-public abstract class BaseRefreshView extends Drawable implements Drawable.Callback, SuperRefreshView {
+public abstract class BaseDrawableRefreshView extends Drawable implements Drawable.Callback, SuperRefreshView {
 
     private PullToRefreshView mRefreshLayout;
-    private boolean mEndOfRefreshing;
 
-    public BaseRefreshView(Context context, PullToRefreshView layout) {
+    public BaseDrawableRefreshView(Context context, PullToRefreshView layout) {
         mRefreshLayout = layout;
     }
 
@@ -63,15 +62,5 @@ public abstract class BaseRefreshView extends Drawable implements Drawable.Callb
     @Override
     public void setColorFilter(ColorFilter cf) {
 
-    }
-
-    /**
-     * Our animation depend on type of current work of refreshing.
-     * We should to do different things when it's end of refreshing
-     *
-     * @param endOfRefreshing - we will check current state of refresh with this
-     */
-    public void setEndOfRefreshing(boolean endOfRefreshing) {
-        mEndOfRefreshing = endOfRefreshing;
     }
 }
